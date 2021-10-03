@@ -1,5 +1,6 @@
 import cv2
 import numpy as np
+import pandas as pd
 from tensorflow.keras.models import load_model
 
 
@@ -63,9 +64,6 @@ def getPredection(boxes,model):
         ## PREPARE IMAGE
         img = np.asarray(image)
         img = img[4:img.shape[0] - 4, 4:img.shape[1] -4]
-        img = cv2.resize(img, (28, 28))
-        img = img / 255
-        img = img.reshape(1, 28, 28, 1)
         ## GET PREDICTION
         predictions = model.predict(img)
         classIndex = model.predict_classes(img)
@@ -120,6 +118,8 @@ def stackImages(imgArray,scale):
         imageBlank = np.zeros((height, width, 3), np.uint8)
         hor = [imageBlank]*rows
         hor_con = [imageBlank]*rows
+        hor_con= np.concatenate(imgArray)
+        hor_con= np.concatenate(imgArray)
         for x in range(0, rows):
             hor[x] = np.hstack(imgArray[x])
             hor_con[x] = np.concatenate(imgArray[x])
@@ -130,6 +130,8 @@ def stackImages(imgArray,scale):
             imgArray[x] = cv2.resize(imgArray[x], (0, 0), None, scale, scale)
             if len(imgArray[x].shape) == 2: imgArray[x] = cv2.cvtColor(imgArray[x], cv2.COLOR_GRAY2BGR)
         hor= np.hstack(imgArray)
-        hor_con= np.concatenate(imgArray)
+        hor_con[x] = np.concatenate(imgArray[x])
+        hor_con[x] = np.concatenate(imgArray[x])
+        
         ver = hor
     return ver
