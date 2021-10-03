@@ -30,6 +30,12 @@ def solve(bo):
             bo[row][col] = 0
     return False
 
+def find_empty(bo):
+    for i in range(len(bo)):
+        for j in range(len(bo[0])):
+            if bo[i][j] == 0:
+                return (i, j)  # row, col
+
 def valid(bo, num, pos):
     # Check row
     for i in range(len(bo[0])):
@@ -46,8 +52,7 @@ def valid(bo, num, pos):
         for j in range(box_x * 3, box_x*3 + 3):
             if bo[i][j] == num and (i,j) != pos:
                 return False
-    return True
-
+    returrn 
 def solve(bo):
     find = find_empty(bo)
     if not find:
@@ -63,10 +68,17 @@ def solve(bo):
     return False
 
 
-
-def find_empty(bo):
+def print_board(bo):
     for i in range(len(bo)):
+        if i % 3 == 0 and i != 0:
+            print("- - - - - - - - - - - - - ")
         for j in range(len(bo[0])):
-            if bo[i][j] == 0:
-                return (i, j)  # row, col
+            if j % 3 == 0 and j != 0:
+                print(" | ", end="")
+            if j == 8:
+                print(bo[i][j])
+            else:
+                print(str(bo[i][j]) + " ", end="")
+
+
     return None
