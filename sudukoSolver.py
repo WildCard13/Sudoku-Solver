@@ -48,17 +48,21 @@ def valid(bo, num, pos):
                 return False
     return True
 
-def print_board(bo):
-    for i in range(len(bo)):
-        if i % 3 == 0 and i != 0:
-            print("- - - - - - - - - - - - - ")
-        for j in range(len(bo[0])):
-            if j % 3 == 0 and j != 0:
-                print(" | ", end="")
-            if j == 8:
-                print(bo[i][j])
-            else:
-                print(str(bo[i][j]) + " ", end="")
+def solve(bo):
+    find = find_empty(bo)
+    if not find:
+        return True
+    else:
+        row, col = find
+    for i in range(1,10):
+        if valid(bo, i, (row, col)):
+            bo[row][col] = i
+            if solve(bo):
+                return True
+            bo[row][col] = 0
+    return False
+
+
 
 def find_empty(bo):
     for i in range(len(bo)):
