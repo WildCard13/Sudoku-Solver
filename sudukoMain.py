@@ -37,6 +37,9 @@ if biggest.size != 0:
     imgWarpColored = cv2.warpPerspective(img, matrix, (widthImg, heightImg))
     imgDetectedDigits = imgBlank.copy()
     imgWarpColored = cv2.cvtColor(imgWarpColored,cv2.COLOR_BGR2GRAY)
+    pts1 = np.float32(biggest) # PREPARE POINTS FOR WARP
+    pts2 = np.float32([[0, 0],[widthImg, 0], [0, heightImg],[widthImg, heightImg]]) # PREPARE POINTS FOR WARP
+    matrix = cv2.getPerspectiveTransform(pts1, pts2) # GER
 
     #### 4. SPLIT THE IMAGE AND FIND EACH DIGIT AVAILABLE
     imgSolvedDigits = imgBlank.copy()
@@ -70,7 +73,13 @@ if biggest.size != 0:
     pts2 = np.float32(biggest) # PREPARE POINTS FOR WARP
     pts1 =  np.float32([[0, 0],[widthImg, 0], [0, heightImg],[widthImg, heightImg]]) # PREPARE POINTS FOR WARP
     matrix = cv2.getPerspectiveTransform(pts1, pts2)  # GER
+    for sublist in board:
+        for item in sublist:
+            flatList.append(item)
     imgInvWarpColored = img.copy()
+    imgDetectedDigits = displayNumbers(imgDetectedDigits, numbers, color=(255, 0, 255))
+    numbers = np.asarray(numbers)
+    posArray = np.where(numbers > 0, 0, 1)
     imgInvWarpColored = cv2.warpPerspective(imgSolvedDigits, matrix, (widthImg, heightImg))
     inv_perspective = cv2.addWeighted(imgInvWarpColored, 1, img, 0.5, 1)
     imgDetectedDigits = drawGrid(imgDetectedDigits)
